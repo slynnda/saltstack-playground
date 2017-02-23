@@ -1,6 +1,28 @@
 version: '3'
 services:
-  saltstack_playground:
+  saltstack_master:
     build:
       context: ./docker
-    container_name: saltstack_playground
+      dockerfile: Dockerfile-master
+    container_name: saltstack_master
+    ports:
+      - "4505:4505"
+      - "4506:4506"
+    networks:
+      saltstack_playground:
+        aliases:
+          - salt
+  saltstack_minion:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-minion
+    container_name: saltstack_minion
+    networks:
+      saltstack_playground:
+        aliases:
+          - minion
+    depends_on:
+      - saltstack_master
+networks:
+  saltstack_playground:
+    driver: bridge
