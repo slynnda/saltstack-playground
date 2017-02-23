@@ -1,0 +1,6 @@
+version: '3'
+services:
+  saltstack_playground:
+    build:
+      context: ./docker
+    container_name: saltstack_playground
